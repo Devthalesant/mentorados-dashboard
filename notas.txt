@@ -22,7 +22,7 @@ git checkout master
 
 ## nesse projeto: 
 
-venv\Scripts\activate
+env\Scripts\activate
 
 depois de sair e voltar: 
 git status

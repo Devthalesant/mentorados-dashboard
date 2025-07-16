@@ -1,20 +1,21 @@
 # Criando funções para as tratativas do Dash dos Mentorados.
 import pandas as pd 
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 import calendar
 from datetime import date
 import holidays
 from pandas.tseries.offsets import CustomBusinessDay
 
 def pegar_dados_google_sheets():
+    scopes = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
 
+    json_path = "C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-21cfa3848fa4.json"
 
-    # Define o escopo
-    scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-
-    # Autenticação com o arquivo de credenciais
-    creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-21cfa3848fa4.json', scope)
+    creds = Credentials.from_service_account_file(json_path, scopes=scopes)
     client = gspread.authorize(creds)
 
     # Abrindo as Planilhas com os dados
