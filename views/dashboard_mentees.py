@@ -7,7 +7,7 @@ import locale
 
 # Configurar locale para português
 try:
-    locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil')
+    locale.setlocale(locale.LC_TIME, 'pt-BR')
 except locale.Error:
     print("Locale 'Portuguese_Brazil' not supported on this system.")
     # Apply a fallback or handle accordingly
