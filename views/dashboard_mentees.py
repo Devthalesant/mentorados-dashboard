@@ -6,7 +6,11 @@ from datetime import date
 import locale
 
 # Configurar locale para português
-locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil')
+try:
+    locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil')
+except locale.Error:
+    print("Locale 'Portuguese_Brazil' not supported on this system.")
+    # Apply a fallback or handle accordingly
 
 today = date.today()
 year = today.year
