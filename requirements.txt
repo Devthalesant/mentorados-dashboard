@@ -1,7 +1,6 @@
 pandas
 gspread
 oauth2client
-calendar
 datetime
 holidays
 streamlit
