@@ -6,7 +6,7 @@ from datetime import date
 import locale
 
 # Configurar locale para português
-locale.setlocale(locale.LC_TIME, 'pt_BR')  # Para Windows
+locale.setlocale(locale.LC_TIME, 'Portuguese_Brazil')
 
 today = date.today()
 year = today.year
