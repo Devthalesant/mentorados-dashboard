@@ -1,30 +1,24 @@
 import pandas as pd 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-from google.oauth2 import service_account
 import calendar
 from datetime import date
 import holidays
 from pandas.tseries.offsets import CustomBusinessDay
 import numpy as np
-import streamlit as st
 
 def pegar_dados_google_sheets():
     # Define o escopo
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
     # Autenticação com o arquivo de credenciais
-    secrets = st.secrets["gcp_service_account"]
-    creds = service_account.Credentials.from_service_account_info(secrets)
+    creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-64de91338f80.json', scope)
     client = gspread.authorize(creds)
-
-    
 
     # Abrindo as Planilhas com os dados
     planilha_respostas = client.open_by_url("https://docs.google.com/spreadsheets/d/1V1d0MsCQxT-a4yChAtLfzVuiXyTzjjiFqw37yASqlmE/edit?gid=1498245696#gid=1498245696")
     planilha_controle = client.open_by_url("https://docs.google.com/spreadsheets/d/1BvFVsdi5NBkoA7Lyq64b6T7_ZGBZYBQ5ONTTfWuzB0s/edit?resourcekey=&gid=706238849#gid=706238849")
 
-    st.success("Acesso a planilhas feito")
     # Pegando a aba com as informações de Mentorados
     aba_control = planilha_controle.worksheet("Forms Control")
     dados_control = aba_control.get_all_records()
