@@ -25,6 +25,9 @@ def pegar_dados_google_sheets():
         client = gspread.authorize(creds)
         st.success("Conexão estabelecida com sucesso!")
 
+        sheet = client.open_by_key("ID_DO_SEU_DOCUMENTO").sheet1
+        st.write("Primeira linha:", sheet.row_values(1))
+
     except Exception as e:
         st.error(f"Erro na conexão: {str(e)}")
 
