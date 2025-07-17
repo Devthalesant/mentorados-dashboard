@@ -18,12 +18,13 @@ def pegar_dados_google_sheets():
     creds = service_account.Credentials.from_service_account_info(secrets)
     client = gspread.authorize(creds)
 
-    st.success("Acesso Realizado {secrets}")
+    
 
     # Abrindo as Planilhas com os dados
     planilha_respostas = client.open_by_url("https://docs.google.com/spreadsheets/d/1V1d0MsCQxT-a4yChAtLfzVuiXyTzjjiFqw37yASqlmE/edit?gid=1498245696#gid=1498245696")
     planilha_controle = client.open_by_url("https://docs.google.com/spreadsheets/d/1BvFVsdi5NBkoA7Lyq64b6T7_ZGBZYBQ5ONTTfWuzB0s/edit?resourcekey=&gid=706238849#gid=706238849")
 
+    st.success("Acesso a planilhas feito")
     # Pegando a aba com as informações de Mentorados
     aba_control = planilha_controle.worksheet("Forms Control")
     dados_control = aba_control.get_all_records()
