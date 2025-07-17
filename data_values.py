@@ -5,56 +5,15 @@ import calendar
 from datetime import date
 import holidays
 from pandas.tseries.offsets import CustomBusinessDay
-from google.oauth2 import service_account
 import numpy as np
-import streamlit as st
-from google.auth.transport.requests import Request
-from datetime import datetime, timedelta
-
 
 def pegar_dados_google_sheets():
     # Define o escopo
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
-    try:
-        # Carrega as credenciais
-        sa_info = st.secrets["gcp_service_account"]
-        
-        # Debug: mostra informações da conta de serviço
-        st.write(f"Conectando como: {sa_info['client_email']}")
-        st.write(f"Project ID: {sa_info['project_id']}")
-        
-        # Cria credenciais com ajuste de tempo
-        creds = service_account.Credentials.from_service_account_info(
-            sa_info,
-            scopes=scope
-        )
-        
-        # Força atualização do token
-        creds = creds.with_token_uri("https://oauth2.googleapis.com/token")
-        creds.refresh(Request())
-        
-        # Conecta ao Google Sheets
-        client = gspread.authorize(creds)
-        
-        # Teste de conexão
-        try:
-            sheet = client.open("NomeDaSuaPlanilha").sheet1
-            data = sheet.get_all_records()
-            st.success("✅ Conexão bem-sucedida!")
-            st.write("Primeiros dados:", data[:2])
-        except gspread.SpreadsheetNotFound:
-            st.error("Planilha não encontrada. Verifique o nome e compartilhamento.")
-        except gspread.APIError as e:
-            st.error(f"Erro na API: {str(e)}")
-            
-    except KeyError:
-        st.error("Chave 'gcp_service_account' não encontrada nos secrets.")
-    except ValueError as e:
-        st.error(f"Erro nas credenciais: {str(e)}")
-        st.write("Dica: Verifique o formato da chave privada nos secrets.")
-    except Exception as e:
-        st.error(f"Erro inesperado: {str(e)}")
+    # Autenticação com o arquivo de credenciais
+    creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-1046db5b9602.json', scope)
+    client = gspread.authorize(creds)
 
     # Abrindo as Planilhas com os dados
     planilha_respostas = client.open_by_url("https://docs.google.com/spreadsheets/d/1V1d0MsCQxT-a4yChAtLfzVuiXyTzjjiFqw37yASqlmE/edit?gid=1498245696#gid=1498245696")
