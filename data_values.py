@@ -15,9 +15,18 @@ def pegar_dados_google_sheets():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
     # Autenticação com o arquivo de credenciais
-    secrets = st.secrets["gcp_service_account"]
-    creds = service_account.Credentials.from_service_account_info(secrets)
-    client = gspread.authorize(creds)
+    try:
+        # Carrega as credenciais com os escopos corretos
+        creds = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"],
+            scopes=scope
+        )
+    
+        client = gspread.authorize(creds)
+        st.success("Conexão estabelecida com sucesso!")
+
+    except Exception as e:
+        st.error(f"Erro na conexão: {str(e)}")
 
     # Abrindo as Planilhas com os dados
     planilha_respostas = client.open_by_url("https://docs.google.com/spreadsheets/d/1V1d0MsCQxT-a4yChAtLfzVuiXyTzjjiFqw37yASqlmE/edit?gid=1498245696#gid=1498245696")
