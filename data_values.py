@@ -5,14 +5,18 @@ import calendar
 from datetime import date
 import holidays
 from pandas.tseries.offsets import CustomBusinessDay
+from google.oauth2 import service_account
 import numpy as np
+import streamlit as st
+
 
 def pegar_dados_google_sheets():
     # Define o escopo
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
     # Autenticação com o arquivo de credenciais
-    creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-1046db5b9602.json', scope)
+    secrets = st.secrets["gcp_service_account"]
+    creds = service_account.Credentials.from_service_account_info(secrets)
     client = gspread.authorize(creds)
 
     # Abrindo as Planilhas com os dados
