@@ -12,7 +12,7 @@ import time
 
 def load_dataframe(worksheet):
 
-  conn = st.connection("gsheets_2", type=GSheetsConnection)
+  conn = st.connection("gsheets", type=GSheetsConnection)
   df = conn.read(worksheet=worksheet)
 
   return df
