@@ -6,50 +6,41 @@ from datetime import date
 import holidays
 from pandas.tseries.offsets import CustomBusinessDay
 import numpy as np
+from streamlit_gsheets import GSheetsConnection
+import streamlit as st
+import time
+
+def load_dataframe(worksheet):
+
+  conn = st.connection("gsheets_2", type=GSheetsConnection)
+  df = conn.read(worksheet=worksheet)
+
+  return df
 
 def pegar_dados_google_sheets():
-    # Define o escopo
-    scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+    df_controle = load_dataframe("Aux_clinics")
 
-    # Autenticação com o arquivo de credenciais
-    creds = ServiceAccountCredentials.from_json_keyfile_name("C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-ae1c19bdab31.json", scope)
-    client = gspread.authorize(creds)
-
-    # Abrindo as Planilhas com os dados
-    planilha_respostas = client.open_by_url("https://docs.google.com/spreadsheets/d/1V1d0MsCQxT-a4yChAtLfzVuiXyTzjjiFqw37yASqlmE/edit?gid=1498245696#gid=1498245696")
-    planilha_controle = client.open_by_url("https://docs.google.com/spreadsheets/d/1BvFVsdi5NBkoA7Lyq64b6T7_ZGBZYBQ5ONTTfWuzB0s/edit?resourcekey=&gid=706238849#gid=706238849")
-
-    # Pegando a aba com as informações de Mentorados
-    aba_control = planilha_controle.worksheet("Forms Control")
-    dados_control = aba_control.get_all_records()
-
-    # Transformando em dataframe
-    df_controle = pd.DataFrame(dados_control)
-
-    # Criando a lista de mentorados
-    df_controle = df_controle.loc[df_controle["CLÍNICA"] != 'Padrão']
+    list_to_ignore = ["Padrão", "Aux_clinics"]
+    df_controle = df_controle.loc[~df_controle["CLÍNICA"].isin(list_to_ignore)]
     lista_mentorados = df_controle["CLÍNICA"].unique().tolist()
 
     lista_de_dfs = []
 
     for clinic in lista_mentorados:
-        aba_respostas = planilha_respostas.worksheet(clinic)
-        dados_resposta = aba_respostas.get_all_records()
-
-        df_respostas = pd.DataFrame(dados_resposta)
-
-        df_respostas["Clinica"] = clinic
-
-        lista_de_dfs.append(df_respostas)
+        time.sleep(2)  # evita estourar a cota: 60/minuto
+        aba_respostas = load_dataframe(clinic)
+        aba_respostas["Clinica"] = clinic
+        lista_de_dfs.append(aba_respostas)
         print(f"adicionando : {clinic}")
-    print(f"Todas clinicas adicionadas")
+
+    print("Todas clínicas adicionadas")
     df_final = pd.concat(lista_de_dfs, ignore_index=True)
 
-    #Treating Dataframe: 
-
-    df_final_columns = ['Clinica','Data','Qual a sua Meta de Faturamento?', 'Leads Gerados no Dia:',
-                        'Avaliações Realizadas no Dia:','Atendimentos Realizados no dia.\n(considerando Avaliação)',
-                        'Quantidade de Pedidos Gerados no DIa:','Valor Vendido no Dia (somente número):']
+    df_final_columns = [
+        'Clinica', 'Data', 'Qual a sua Meta de Faturamento?', 'Leads Gerados no Dia:',
+        'Avaliações Realizadas no Dia:', 'Atendimentos Realizados no dia.\n(considerando Avaliação)',
+        'Quantidade de Pedidos Gerados no DIa:', 'Valor Vendido no Dia (somente número):'
+    ]
 
     df_final = df_final[df_final_columns]
 

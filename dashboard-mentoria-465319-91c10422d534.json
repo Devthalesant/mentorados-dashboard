@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "dashboard-mentoria-465319",
+  "private_key_id": "91c10422d534059efdb5269e7817b424230d81dd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDBkiESACsr42hC\nB1UI/0iBFReN4BWDoz0su4hMDYNDfhmomyrxDdA1zOYfEmu59EhVbfDW3XAwtLyi\n8kq9NKRXVa/YpcHT2DSSFG+6icBqdjCVXQtSoDw0SELjD2bGPwO2OxdJEKa9Qecu\nQwh3cVm2uV8WI1VHJGnzfvvTebcdH8A3YMQXkQ4kbQBBoa9rYo5hcU2B5tiNZ8vu\nkflzD0JkYsk7/A0oTjEQJ4Bd7bWX1dJwEHx5iECUj4sbj/ShJ28z2sK8W8dEL0Sb\ndrP2T8xBp6lBfbe1WYI0zOyxT8weqj8XaKkYvToeshjduMUs3saYKDY5La84Dlc7\nJTDZP1uVAgMBAAECggEAEB+OtJ6h+e+2XUWaE3vxZfBupqkjHEoKYZb5790c8WVo\nArobVg/LUiflL8e2LxDbaOOVm3gUt7czkokG/lfhASCd2zhXUEDNLtvClgbnqZZ6\n+SintZ6rf8QDGkGhUw2oTqirtFt4NVcaHVQvuNnkBKB6fJq90tquyT2Vq+mSqJC5\nYMBNZcYx6EqsG4ZT/fMwX08mL8KXSwOfpLO39Dps8Y8Rf1osxeXKOHop3d5Sxvvd\nNhQuHQSe6nOMK8PEXgaHqSGmrCyuXf78X3odG+BZA+Z9zzTLRJvcDGNnzyxEE4SB\n2s2Lg9WnrCm4SdRAadYb1W0EN08gfUL/xgy4xhmycwKBgQD1rPsnjBVogdrAKKXa\n4c9NRhlBKm4fqvGG62jVWnn0EfxW82SkFBDkF+8H9xwe0qxVp9enkIgxj+w7mBpQ\n920cV3d/yYgAW051Mkhi+Zea/GVKel2wf4hwIKrF5fKd9jxn5yivkTEkVTbx1t7Z\nwIQZa5SV2UeSYtfEreePZO6aGwKBgQDJtJhktgWFnPqjikXhA7NlAZLFRjtfDqxz\neLKSVCO681EpHPg66/XTLL4D7MkCBAso4xNINCINy6ERyHp4pS0GEXO9O0AFGAoZ\n0ljM710l5vM8/MsTkG4omcxeXu+SUsPMy09ZhD2ogtwq+roExkTylkvQQZpyYpNG\n/czgW9I8DwKBgENMtKx7um2bjPIw8GZKj4BKoKZyWiKAsJNWL6yqkVfkCW1EVaCB\nArOJPui+r8xdx+nbBb+YX0a8d2lH3IWrkg8+grTV31TBrnd6Y8wBNZ+2XoUNilbM\nSPL2b/GwcUsGZjvMXh/iNUUPtvJ++yNJkqZoCxcVo36dZyAwx4tHiflbAoGAVy+g\nz6d+K4r3K8mQ+vpGiNptPqhk8Wm+UQtS5L1J1H1oD4VeJtnnoCgu2jN3j0+AI2RD\n6WnfbmcecDlf9tYu5/iTNrBts8X4V8D8cVjlwoRZj3sVrJc5hoM0O3Z9x5nO2K7o\n1aC7piMqV8mYroelNdaRXqt8vwSs9HqwHCqUbTECgYBWnBHbvxUgOhCrBSkwoaXw\nG+TNj1Qj4todqy3ib2AjyOotTW3/3u6zCHYufxuAqAHK+XKnIHcJtmjvwTDWMC2V\nWcsbiKMAfdoKX+sGDDT4w3ZIG3hoR91ajZcgIOK5U4HYbBvKjU6REXQE1RwqZIDg\n02VcJ8V3h4MLftUaEGNRNQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "mentorados-360@dashboard-mentoria-465319.iam.gserviceaccount.com",
+  "client_id": "115691885952215135321",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mentorados-360%40dashboard-mentoria-465319.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
