@@ -12,7 +12,7 @@ def pegar_dados_google_sheets():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 
     # Autenticação com o arquivo de credenciais
-    creds = ServiceAccountCredentials.from_json_keyfile_name('C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-64de91338f80.json', scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name("C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/dashboard-mentoria-465319-ae1c19bdab31.json", scope)
     client = gspread.authorize(creds)
 
     # Abrindo as Planilhas com os dados
