@@ -27,7 +27,7 @@ def pegar_dados_google_sheets():
     lista_de_dfs = []
 
     for clinic in lista_mentorados:
-        time.sleep(2)  # evita estourar a cota: 60/minuto
+        time.sleep(3)  # evita estourar a cota: 60/minuto
         aba_respostas = load_dataframe(clinic)
         aba_respostas["Clinica"] = clinic
         lista_de_dfs.append(aba_respostas)
