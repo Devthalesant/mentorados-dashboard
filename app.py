@@ -2,7 +2,8 @@
 from data_values import *
 import streamlit as st
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide",
+                   theme="light")
 
 # --- PAGE SETUP ---
 dash_page = st.Page(
