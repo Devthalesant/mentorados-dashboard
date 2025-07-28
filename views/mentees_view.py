@@ -32,7 +32,7 @@ def decodificar_nome(codigo):
 query_params = st.query_params
 
 if 'clinica' in query_params:
-    nome_clinica = decodificar_nome(query_params['clinica'][0])
+    nome_clinica = decodificar_nome(query_params['clinica'])
     st.write(f"Dashboard da: {nome_clinica}")
     
     # Filtro simples no DataFrame
