@@ -66,32 +66,104 @@ atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
 valor_remanescente = meta - valor_faturado
 valor_remanescente_formatado = f"R$ {valor_remanescente:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-## Mostrando KPI´s
-st.header("💵 KPI´s de Faturamento:")
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.metric(f"Meta do mês:",meta_formatada)
-with col2:
-    st.metric(f"Faturamento Total:",valor_faturado_formatado)
-    st.metric("Valor faltando para Gritar Meta:",valor_remanescente_formatado)
-with col3:
-    st.metric("Atingimento:",atingimento_de_meta_formatado)
+# ======================
+# KPI's DE FATURAMENTO - VERSÃO APRIMORADA
+# ======================
 
-if atingimento_de_meta >= 100:
-    st.success("🏆 Parabens, Você atingiu a sua Meta do Mês!!! ")
-    st.balloons()
-elif atingimento_de_meta >= 50:
-    st.success(f"💪 Ja Passamos da metade, vamos atrás dos {meta_formatada}")
+st.markdown("## 💰 Performance Financeira")
 
-elif atingimento_de_meta < 50:
-    st.warning(f"""
-⚡ **Foco Total Necessário!**
+# Container principal com borda sutil
+with st.container(border=True):
+    # Linha 1: Métricas principais
+    cols = st.columns([1,1.2,1])
     
-    Atingimos apenas {atingimento_de_meta_formatado} da meta...
-    Mas toda jornada começa com o primeiro passo!
+    with cols[0]:
+        st.metric(
+            label="**Meta Mensal**",
+            value=meta_formatada,
+            help="Valor total da meta estabelecida"
+        )
     
-    💡 Dica: Revise suas estratégias e mantenha a consistência!
-    """)
+    with cols[1]:
+        # Container para os dois KPIs relacionados
+        with st.container():
+            st.metric(
+                label="**Faturamento Realizado**",
+                value=valor_faturado_formatado,
+                delta=f"{atingimento_de_meta_formatado} de atingimento",
+                delta_color="normal"
+            )
+            st.metric(
+                label="**Saldo para Meta**",
+                value=valor_remanescente_formatado,
+                help="Valor restante para atingir a meta total"
+            )
+    
+    with cols[2]:
+        # Gráfico de progresso circular (visual)
+        progress = min(atingimento_de_meta/100, 1.0)
+        st.markdown(f"""
+        <div style="text-align: center">
+            <h3 style="margin-bottom: 5px;">Atingimento</h3>
+            <div style="display: inline-block; position: relative; width: 120px; height: 120px;">
+                <svg width="120" height="120">
+                    <circle cx="60" cy="60" r="50" stroke="#f0f2f6" stroke-width="10" fill="none"/>
+                    <circle cx="60" cy="60" r="50" stroke="#4CAF50" stroke-width="10" 
+                        stroke-dasharray="314" stroke-dashoffset="{314 * (1 - progress)}" 
+                        fill="none" transform="rotate(-90 60 60)"/>
+                    <text x="60" y="65" text-anchor="middle" font-size="20" font-weight="bold">
+                        {atingimento_de_meta:.1f}%
+                    </text>
+                </svg>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # Linha 2: Mensagem de status
+    if atingimento_de_meta >= 100:
+        st.success("""
+        🎉 **Meta Superada!**  
+        Parabéns pelo excelente desempenho este mês!
+        """, icon="🏆")
+        st.balloons()
+    elif atingimento_de_meta >= 75:
+        st.info(f"""
+        🔥 **Bom Desempenho!**  
+        Você já atingiu {atingimento_de_meta:.1f}% da meta. Continue assim!
+        """)
+    elif atingimento_de_meta >= 50:
+        st.info(f"""
+        ⏳ **Meta Parcialmente Atingida**  
+        Falta apenas {valor_remanescente_formatado} para bater a meta total!
+        """)
+    else:
+        st.warning(f"""
+        ⚠️ **Atenção Necessária**  
+        Atingimento atual: {atingimento_de_meta:.1f}%  
+        Estratégias recomendadas:
+        - Priorize clientes com maior potencial
+        - Revise campanhas de marketing
+        - Otimize conversões
+        """)
+
+# Estilo CSS customizado
+st.markdown("""
+<style>
+    /* Melhora o espaçamento entre métricas */
+    [data-testid="stMetric"] {
+        padding: 15px 10px;
+    }
+    /* Destaque para valores principais */
+    [data-testid="stMetricValue"] {
+        font-size: 1.5rem;
+    }
+    /* Alinhamento dos labels */
+    [data-testid="stMetricLabel"] {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 ## Gráfico de Vendas Diárias com Plotly
 st.markdown("---")
