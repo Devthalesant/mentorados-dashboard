@@ -78,7 +78,7 @@ elif atingimento_de_meta < 50:
 
 ## Gráfico de Vendas Diárias: 
 ## Converter datas com o parâmetro dayfirst
-df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"], dayfirst=True, errors='coerce')
+df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"],format='mixed')
 df_filtrado = df_filtrado.dropna(subset=['Data'])
 
 # Gráfico simples do Streamlit
