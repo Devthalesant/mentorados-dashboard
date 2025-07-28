@@ -211,9 +211,6 @@ st.markdown("")
 st.divider() 
 
 st.header("🎣 KPI´s de Leads e Agendamentos:")
-print(df_filtrado.columns)
-
-st.dataframe(df_filtrado)
 
 leads_gerados = df_filtrado['Leads'].sum()
 atendimentos_realizdos = df_filtrado["Atendimentos"].sum()
