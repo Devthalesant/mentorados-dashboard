@@ -49,9 +49,8 @@ if 'clinica' in query_params:
     valor_remanescente_formatado = f"R$ {valor_remanescente:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
 
-
-col1, col2, col3 = st.columns(3)
 st.header("💵 KPI´s de Faturamento:")
+col1, col2, col3 = st.columns(3)
 with col1:
     st.metric(f"Meta do mês:",meta_formatada)
 with col2:
