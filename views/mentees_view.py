@@ -34,17 +34,8 @@ if 'clinica' in query_params:
     # Filtro simples no DataFrame
     if 'Clinica' in df_final.columns:
         df_filtrado = df_final[df_final['Clinica'].str.lower() == nome_clinica.lower()]
-        st.dataframe(df_filtrado)
 
+    df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"])
+    df_filtrado["Data"] = df_filtrado["Data"].dt.day
 
-
-
-
-
-
-
-
-
-
-st.dataframe(df_final)
-
+    st.dataframe(df_filtrado)
