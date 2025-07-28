@@ -63,10 +63,10 @@ if atingimento_de_meta >= 100:
     st.success("🏆 Parabens, Você atingiu a sua Meta do Mês!!! ")
     st.balloons()
 elif atingimento_de_meta >= 50:
-    st.warning(f"💪 Ja Passamos da metade, vamos atrás dos {meta_formatada}")
+    st.success(f"💪 Ja Passamos da metade, vamos atrás dos {meta_formatada}")
     st.metric("Valor para Gritar Meta:",valor_remanescente_formatado)
 elif atingimento_de_meta < 50:
-    st.error(f"""
+    st.warning(f"""
 ⚡ **Foco Total Necessário!**
     
     Atingimos apenas {atingimento_de_meta}% da meta...
