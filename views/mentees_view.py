@@ -36,12 +36,12 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
-st.dataframe(df_filtrado)
+df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número)":"Valor Vendido"})
 
 meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
 meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-valor_faturado = df_filtrado['Valor Vendido no Dia (somente número):'].sum()
+valor_faturado = df_filtrado['Valor Vendido'].sum()
 valor_faturado_formatado = f"R$ {valor_faturado:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
 atingimento_de_meta = valor_faturado/meta *100
@@ -83,7 +83,7 @@ df_filtrado = df_filtrado.dropna(subset=['Data'])
 
 # Gráfico simples do Streamlit
 st.bar_chart(
-    df_filtrado.set_index('Data')['Valor Vendido no Dia (somente número):'],
+    df_filtrado.set_index('Data')['Valor Vendido'],
     color="#724CAF"
 )
 st.markdown("")
