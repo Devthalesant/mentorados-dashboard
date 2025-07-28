@@ -1,4 +1,5 @@
 import streamlit as st
+from urllib.parse import unquote
 from data_values import *
 import pandas as pd
 import numpy as np
@@ -19,30 +20,19 @@ st.dataframe(df_final)
 
 st.title("Dashboard Individual")
 
-# Debug dos parâmetros
-query_params = st.query_params
-st.write("Parâmetros brutos:", query_params)
-
-if 'first_key' in query_params:
-    raw_value = query_params['first_key'][0]
-    
+def decode_clinic_name(encoded_str):
+    """Decodifica o nome da clínica de forma confiável"""
     try:
-        # Processamento dos códigos
-        codes = [int(code) for code in raw_value.split('-')]
-        
-        # Decodificação estendida para caracteres latinos (incluindo acentos)
-        decoded_str = ''.join(chr(code) for code in codes)
-        
-        st.success(f"Valor decodificado: {decoded_str}")
-        
-        # Agora filtre seu DataFrame
-        if 'Clinica' in df_final.columns:
-            df_filtrado = df_final[df_final['Clinica'].str.contains(decoded_str, case=False, na=False)]
-            st.dataframe(df_filtrado)
-        else:
-            st.error("Coluna 'Clinica' não encontrada no DataFrame")
-            
-    except ValueError as e:
+        # Decodifica URL e substitui hífens por espaços
+        decoded = unquote(encoded_str).replace('-', ' ').title()
+        # Corrige possíveis substituições feitas na codificação
+        return decoded
+    except Exception as e:
         st.error(f"Erro na decodificação: {str(e)}")
-else:
-    st.warning("Nenhum parâmetro 'first_key' encontrado na URL")
+        return None
+
+# Exemplo de uso no Streamlit
+query_params = st.experimental_get_query_params()
+if 'clinic' in query_params:
+    clinic_name = decode_clinic_name(query_params['clinic'][0])
+    st.success(f"Clínica: {clinic_name}")
