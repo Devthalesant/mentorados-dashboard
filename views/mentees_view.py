@@ -40,11 +40,16 @@ if 'clinica' in query_params:
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
 # Renomeando Coluna de Valor
-df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número):":"Valor Vendido"})
+df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número):":"Valor Vendido",
+                                          "Leads Gerados no Dia:" : "Leads",
+                                          "Avaliações Realizadas no Dia:" : "Avaliações",
+                                          "Atendimentos Realizados no dia.(considerando Avaliação)" : "Atendimentos",
+                                          "Quantidade de Pedidos Gerados no DIa:" : "Pedidos",
+                                          "Qual a sua Meta de Faturamento?" : "Meta"})
 
 
 # Pegando paramâmetros de Faturamento
-meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
+meta = df_filtrado['Meta'].iloc[0]
 meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
 valor_faturado = df_filtrado['Valor Vendido'].sum()
@@ -130,6 +135,20 @@ st.divider()
 st.header("🎣 KPI´s de Leads e Agendamentos:")
 st.dataframe(df_filtrado)
 
+leads_gerados = df_filtrado['Leads'].sum()
+atendimentos_realizdos = df_filtrado["Atendimentos"].sum()
+aval_realizadas = df_filtrado['Avaliações'].sum()
+Pedidos = df_filtrado['Pedidos'].sum()
+
+
+col1,col2,col3 = st.columns(3)
+
+with col1: 
+    st.metric(f"Nesse mês você gerou{leads_gerados}")
+with col2:
+    st.metric(f"Realizou {atendimentos_realizdos} Atendimentos")
+with col3:
+    st.metric(f"Além de {aval_realizadas} Avaliações")
 
 
 
