@@ -39,13 +39,6 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
-# Adicione no início do código (após os imports)
-st.set_page_config(
-    layout="wide",
-    page_title=f"Dashboard {nome_clinica}",
-    page_icon="📊"
-)
-
 #corrigir os nomes das colunas removendo quebras de linha
 df_filtrado.columns = df_filtrado.columns.str.replace('\n', ' ')
 
