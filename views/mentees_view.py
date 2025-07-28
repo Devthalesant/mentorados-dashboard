@@ -77,15 +77,51 @@ elif atingimento_de_meta < 50:
     """)
 
 ## Gráfico de Vendas Diárias: 
-## Converter datas com o parâmetro dayfirst
-df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"],format='mixed')
-df_filtrado = df_filtrado.dropna(subset=['Data'])
+## Gráfico de Vendas Diárias - Versão Aprimorada
+st.markdown("---")
+st.subheader("📊 Vendas Diárias por Data")
 
-# Gráfico simples do Streamlit
-st.bar_chart(
-    df_filtrado.set_index('Data')['Valor Vendido'],
-    color="#724CAF"
+# Configurar o tamanho do gráfico
+plt.figure(figsize=(12, 6))
+
+# Converter a coluna de data para o formato datetime (caso ainda não esteja)
+df_filtrado['Data'] = pd.to_datetime(df_filtrado['Data'], dayfirst=True)
+
+# Ordenar por data
+df_filtrado = df_filtrado.sort_values('Data')
+
+# Criar o gráfico de barras
+bars = plt.bar(
+    df_filtrado['Data'].dt.strftime('%d/%m'),  # Formato dia/mês
+    df_filtrado['Valor Vendido'],
+    color='#7E4EC2',  # Roxo profissional
+    width=0.6,
+    edgecolor='white'  # Borda branca para contraste
 )
+
+# Adicionar os valores em cima de cada barra
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2., height,
+            f'R$ {height:,.0f}'.replace(',', '.'),  # Formato brasileiro
+            ha='center', va='bottom', fontsize=10)
+
+# Linha da média
+media = df_filtrado['Valor Vendido'].mean()
+plt.axhline(media, color='#FFA726', linestyle='--', 
+           label=f'Média Diária: R$ {media:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'))
+
+# Configurações do gráfico
+plt.title(f'Vendas Diárias - {nome_clinica}', pad=20, fontweight='bold')
+plt.xlabel('Data', labelpad=10)
+plt.ylabel('Valor Vendido (R$)', labelpad=10)
+plt.legend(loc='upper right')
+plt.grid(axis='y', alpha=0.3)
+plt.xticks(rotation=45)
+plt.tight_layout()
+
+# Exibir o gráfico no Streamlit
+st.pyplot(plt.gcf())  # gcf() pega a figura atual
 st.markdown("")
 st.divider() 
 
