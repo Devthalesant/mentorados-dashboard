@@ -4,6 +4,7 @@ from data_values import *
 import pandas as pd
 from datetime import date
 import locale
+import matplotlib.pyplot as plt
 
 today = date.today()
 year = today.year
@@ -49,7 +50,6 @@ atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
 valor_remanescente = meta - valor_faturado
 valor_remanescente_formatado = f"R$ {valor_remanescente:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-
 st.header("💵 KPI´s de Faturamento:")
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -75,6 +75,12 @@ elif atingimento_de_meta < 50:
     
     💡 Dica: Revise suas estratégias e mantenha a consistência!
     """)
+
+## Gráfico de Vendas Diárias: 
+st.bar_chart(
+    df_filtrado.set_index('Data')['Valor vendido no dia'],
+    color="#724CAF"
+)
 st.markdown("")
 st.divider() 
 

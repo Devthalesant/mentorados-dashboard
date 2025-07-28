@@ -5,3 +5,4 @@ datetime
 holidays
 streamlit
 st-gsheets-connection
+matplotlib
