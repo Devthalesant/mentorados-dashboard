@@ -6,3 +6,4 @@ holidays
 streamlit
 st-gsheets-connection
 matplotlib
+plotly
