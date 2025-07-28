@@ -37,7 +37,6 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
-    st.dataframe(df_filtrado)
 
     meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
     meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
@@ -49,3 +48,13 @@ if 'clinica' in query_params:
     atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
 
     st.metric("Atingimento de meta",atingimento_de_meta_formatado)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric(f"Meta do mês de{month}:",meta_formatada)
+with col2:
+    st.metric(f"Faturamento Total:",valor_faturado_formatado)
+with col3:
+    st.metric("Atingimento:",atingimento_de_meta_formatado)
+    
