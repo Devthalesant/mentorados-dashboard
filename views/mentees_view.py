@@ -42,12 +42,14 @@ if 'clinica' in query_params:
 st.write("Colunas ANTES do rename:", df_filtrado.columns.tolist())
 
 df_filtrado = df_filtrado.rename(columns={
-    "Valor Vendido no Dia (somente número):": "Valor Vendido",
+    "Clinica": "Clinica",
+    "Data": "Data",
+    "Qual a sua Meta de Faturamento?": "Meta",
     "Leads Gerados no Dia:": "Leads",
-    "Atendimentos Realizados no dia. (considerando Avaliação)": "Atendimentos",  # Problema aqui
     "Avaliações Realizadas no Dia:": "Avaliações",
+    "Atendimentos Realizados no dia. (considerando Avaliação)": "Atendimentos",
     "Quantidade de Pedidos Gerados no DIa:": "Pedidos",
-    "Qual a sua Meta de Faturamento?": "Meta"
+    "Valor Vendido no Dia (somente número):": "Valor Vendido"
 })
 
 # Verificação pós-rename
