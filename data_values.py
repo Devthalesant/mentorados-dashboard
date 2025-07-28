@@ -17,7 +17,7 @@ def load_dataframe(worksheet):
 
   return df
 
-def pegar_dados_google_sheets():
+def pegar_dados_google_sheets(month):
     df_controle = load_dataframe("Aux_clinics")
 
     list_to_ignore = ["Padrão", "Aux_clinics"]
@@ -35,6 +35,11 @@ def pegar_dados_google_sheets():
 
     print("Todas clínicas adicionadas")
     df_final = pd.concat(lista_de_dfs, ignore_index=True)
+
+    df_final["Data"] = pd.to_datetime(df_final["Data"])
+    df_final['Mês'] =  df_final["Data"].dt.month
+
+    df_final = df_final.loc[df_final['Mês'] == month]
 
     df_final_columns = [
         'Clinica', 'Data', 'Qual a sua Meta de Faturamento?', 'Leads Gerados no Dia:',

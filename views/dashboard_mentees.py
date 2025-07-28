@@ -26,7 +26,7 @@ st.divider()
 
 @st.cache_data
 def load_data():
-    return pegar_dados_google_sheets()
+    return pegar_dados_google_sheets(month)
 
 df_final = load_data()
 
@@ -178,7 +178,7 @@ COLORS = {
 METRICA_THRESHOLDS = {
     'Atendimento no Mês': 40,
     'Avaliações no Mês': 40,
-    'Pedidos': 60
+    'Pedidos': 50
 }
 
 # Processamento dos dados
