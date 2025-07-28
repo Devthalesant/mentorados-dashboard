@@ -41,6 +41,10 @@ if 'clinica' in query_params:
 
 st.write("Colunas ANTES do rename:", df_filtrado.columns.tolist())
 
+# Primeiro, vamos corrigir os nomes das colunas removendo quebras de linha
+df_filtrado.columns = df_filtrado.columns.str.replace('\n', ' ')
+
+# Agora faça o rename normalmente
 df_filtrado = df_filtrado.rename(columns={
     "Clinica": "Clinica",
     "Data": "Data",
@@ -52,7 +56,7 @@ df_filtrado = df_filtrado.rename(columns={
     "Valor Vendido no Dia (somente número):": "Valor Vendido"
 })
 
-# Verificação pós-rename
+# Verificação final
 st.write("Colunas DEPOIS do rename:", df_filtrado.columns.tolist())
 
 
