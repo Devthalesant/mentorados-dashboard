@@ -27,4 +27,6 @@ st.dataframe(df_final)
 
 query_params =  st.query_params
 
-st.write(query_params)
+codes = query_params['first_key'][0].split('-')
+decoded_str = ''.join(chr(int(code)) for code in codes)
+st.write("String decodificada:", decoded_str)
