@@ -42,4 +42,7 @@ if 'clinica' in query_params:
     meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
     meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-st.write(meta_formatada)
+    valor_faturado = df_filtrado['Valor Vendido no Dia (somente número):'].sum()
+    valor_faturado_formatado = f"R$ {valor_faturado:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+
+    st.write(valor_faturado_formatado)
