@@ -133,7 +133,7 @@ st.markdown("")
 st.divider() 
 
 st.header("🎣 KPI´s de Leads e Agendamentos:")
-st.write(df_filtrado.columns)
+print(df_filtrado.columns)
 
 st.dataframe(df_filtrado)
 
