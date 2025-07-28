@@ -228,8 +228,6 @@ conversao_leads_atendimentos_f = f"{conversao_leads_atendimentos:.2f}%"
 conversao_atendimentos_aval_f = f"{conversao_atendimentos_aval:.2f}%"
 conversao_aval_pedidos_f = f"{conversao_aval_pedidos:.2f}%"
 
-
-
 # ======================
 # SEÇÃO 1 - VOLUMES BRUTOS
 # ======================
@@ -263,7 +261,6 @@ with cols[3]:
 
 # Divisor visual
 st.divider()
-
 # ======================
 # SEÇÃO 2 - TAXAS DE CONVERSÃO
 # ======================
@@ -306,6 +303,45 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+# ======================
+# GRÁFICO DE FUNIL DE CONVERSÃO
+# ======================
+st.markdown("---")
+st.subheader("📉 Funil de Conversão Completo")
+
+# Dados para o funil
+funil_data = pd.DataFrame({
+    'Estágio': ['Leads', 'Atendimentos', 'Avaliações', 'Pedidos'],
+    'Quantidade': [leads_gerados, atendimentos_realizdos, aval_realizadas, Pedidos],
+    'Taxa Conversão': [
+        '100%',
+        f'{conversao_leads_atendimentos:.1f}%',
+        f'{conversao_atendimentos_aval:.1f}%',
+        f'{conversao_aval_pedidos:.1f}%'
+    ]
+})
+
+# Criar gráfico de funil
+fig_funil = px.funnel(
+    funil_data,
+    x='Quantidade',
+    y='Estágio',
+    text='Taxa Conversão',
+    color_discrete_sequence=['#7E4EC2'],  # Mantendo seu padrão de cores
+    title='<b>Jornada do Cliente</b><br><sub>Da captação ao fechamento</sub>'
+)
+
+# Ajustes de layout
+fig_funil.update_layout(
+    plot_bgcolor='rgba(0,0,0,0)',
+    hovermode='x unified',
+    height=500,
+    title_x=0.5
+)
+
+# Exibir no dashboard
+st.plotly_chart(fig_funil, use_container_width=True)
 
 
 
