@@ -5,56 +5,44 @@ import numpy as np
 from datetime import date
 import locale
 
-# Configuração inicial
 today = date.today()
-locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')  # Para nomes de mês em português
+year = today.year
+month = today.month
 month_name = today.strftime("%B")
 
 @st.cache_data
 def load_data():
-    return pegar_dados_google_sheets(today.month)
+    return pegar_dados_google_sheets(month)
 
 df_final = load_data()
+st.dataframe(df_final)
 
-# Interface principal
 st.title("Dashboard Individual")
 
 # Debug dos parâmetros
-query_params = st.experimental_get_query_params()  # Alternativa mais compatível
-st.write("Parâmetros recebidos:", query_params)
+query_params = st.query_params
+st.write("Parâmetros brutos:", query_params)
 
 if 'first_key' in query_params:
+    raw_value = query_params['first_key'][0]
+    
     try:
-        # Decodificação correta dos valores
-        code_points = query_params['first_key'][0].split('-')
-        decoded_str = ''.join([chr(int(c)) for c in code_points])
+        # Processamento dos códigos
+        codes = [int(code) for code in raw_value.split('-')]
         
-        # Correção manual de caracteres especiais
-        decoded_str = decoded_str.replace('Í', 'Í')  # Corrige o código 205
+        # Decodificação estendida para caracteres latinos (incluindo acentos)
+        decoded_str = ''.join(chr(code) for code in codes)
         
-        st.success(f"Clínica decodificada: {decoded_str}")
+        st.success(f"Valor decodificado: {decoded_str}")
         
-        # Filtro do DataFrame com correspondência exata
+        # Agora filtre seu DataFrame
         if 'Clinica' in df_final.columns:
-            # Remove espaços extras e padroniza
-            df_final['Clinica_clean'] = df_final['Clinica'].str.strip().str.upper()
-            search_str = decoded_str.strip().upper()
-            
-            df_filtrado = df_final[df_final['Clinica_clean'] == search_str]
-            
-            if not df_filtrado.empty:
-                st.dataframe(df_filtrado.drop(columns=['Clinica_clean']))
-            else:
-                st.warning(f"Nenhum dado encontrado para: {decoded_str}")
-                st.write("Valores únicos na coluna 'Clinica':")
-                st.write(df_final['Clinica'].unique())
+            df_filtrado = df_final[df_final['Clinica'].str.contains(decoded_str, case=False, na=False)]
+            st.dataframe(df_filtrado)
         else:
-            st.error("Coluna 'Clinica' não encontrada!")
-            st.write("Colunas disponíveis:", df_final.columns.tolist())
+            st.error("Coluna 'Clinica' não encontrada no DataFrame")
             
-    except Exception as e:
-        st.error(f"Erro: {str(e)}")
-        st.write("Valor problemático:", query_params['first_key'][0])
+    except ValueError as e:
+        st.error(f"Erro na decodificação: {str(e)}")
 else:
-    st.warning("Adicione ?first_key=... à URL")
-    st.write("Exemplo: ?first_key=67-76-73-78-73-67-65-32-68-82-65-32-74-69-83-83-73-67-65")
+    st.warning("Nenhum parâmetro 'first_key' encontrado na URL")
