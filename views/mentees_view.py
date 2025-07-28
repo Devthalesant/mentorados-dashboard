@@ -38,3 +38,6 @@ if 'clinica' in query_params:
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
     st.dataframe(df_filtrado)
+
+    meta_faturamrnto = df_filtrado["Qual a sua Meta de Faturamrnto"].first()
+    st.write(meta_faturamrnto)
