@@ -48,4 +48,4 @@ if 'clinica' in query_params:
     atingimento_de_meta = valor_faturado/meta *100
     atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
 
-    st.metric(atingimento_de_meta_formatado)
+    st.metric("Atingimento de meta",atingimento_de_meta_formatado)
