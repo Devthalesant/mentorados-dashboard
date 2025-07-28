@@ -69,7 +69,7 @@ elif atingimento_de_meta < 50:
     st.warning(f"""
 ⚡ **Foco Total Necessário!**
     
-    Atingimos apenas {atingimento_de_meta}% da meta...
+    Atingimos apenas {atingimento_de_meta_formatado} da meta...
     Mas toda jornada começa com o primeiro passo!
     
     💡 Dica: Revise suas estratégias e mantenha a consistência!
