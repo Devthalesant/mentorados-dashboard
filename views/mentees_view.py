@@ -35,7 +35,6 @@ if 'clinica' in query_params:
     if 'Clinica' in df_final.columns:
         df_filtrado = df_final[df_final['Clinica'].str.lower() == nome_clinica.lower()]
 
-    df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"])
-    df_filtrado["Data"] = df_filtrado["Data"].dt.day
+    df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
     st.dataframe(df_filtrado)
