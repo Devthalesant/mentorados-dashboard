@@ -39,13 +39,19 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
-# Renomeando Coluna de Valor
-df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número):":"Valor Vendido",
-                                          "Leads Gerados no Dia:" : "Leads",
-                                          "Atendimentos Realizados no dia. (considerando Avaliação)":"Atendimentos",
-                                          "Avaliações Realizadas no Dia:" : "Avaliações",
-                                          "Quantidade de Pedidos Gerados no DIa:" : "Pedidos",
-                                          "Qual a sua Meta de Faturamento?" : "Meta"})
+st.write("Colunas ANTES do rename:", df_filtrado.columns.tolist())
+
+df_filtrado = df_filtrado.rename(columns={
+    "Valor Vendido no Dia (somente número):": "Valor Vendido",
+    "Leads Gerados no Dia:": "Leads",
+    "Atendimentos Realizados no dia. (considerando Avaliação)": "Atendimentos",  # Problema aqui
+    "Avaliações Realizadas no Dia:": "Avaliações",
+    "Quantidade de Pedidos Gerados no DIa:": "Pedidos",
+    "Qual a sua Meta de Faturamento?": "Meta"
+})
+
+# Verificação pós-rename
+st.write("Colunas DEPOIS do rename:", df_filtrado.columns.tolist())
 
 
 # Pegando paramâmetros de Faturamento
