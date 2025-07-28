@@ -36,11 +36,11 @@ if 'first_key' in query_params:
         st.success(f"Valor decodificado: {decoded_str}")
         
         # Agora filtre seu DataFrame
-        if 'Clínica' in df_final.columns:
-            df_filtrado = df_final[df_final['Clínica'].str.contains(decoded_str, case=False, na=False)]
+        if 'Clinica' in df_final.columns:
+            df_filtrado = df_final[df_final['Clinica'].str.contains(decoded_str, case=False, na=False)]
             st.dataframe(df_filtrado)
         else:
-            st.error("Coluna 'Clínica' não encontrada no DataFrame")
+            st.error("Coluna 'Clinica' não encontrada no DataFrame")
             
     except ValueError as e:
         st.error(f"Erro na decodificação: {str(e)}")
