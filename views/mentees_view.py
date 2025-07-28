@@ -78,7 +78,7 @@ elif atingimento_de_meta < 50:
 
 ## Gráfico de Vendas Diárias: 
 st.bar_chart(
-    df_filtrado.set_index('Data')['Valor vendido no dia'],
+    df_filtrado.set_index('Data')['Valor Vendido no Dia (somente número):'],
     color="#724CAF"
 )
 st.markdown("")
