@@ -32,7 +32,7 @@ def decode_clinic_name(encoded_str):
         return None
 
 # Exemplo de uso no Streamlit
-query_params = st.experimental_get_query_params()
+query_params = st.query_params()
 if 'clinic' in query_params:
     clinic_name = decode_clinic_name(query_params['clinic'][0])
     st.success(f"Clínica: {clinic_name}")
