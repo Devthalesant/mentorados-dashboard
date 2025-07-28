@@ -45,4 +45,7 @@ if 'clinica' in query_params:
     valor_faturado = df_filtrado['Valor Vendido no Dia (somente número):'].sum()
     valor_faturado_formatado = f"R$ {valor_faturado:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-    st.write(valor_faturado_formatado)
+    atingimento_de_meta = valor_faturado/meta *100
+    atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
+
+    st.metric(atingimento_de_meta_formatado)
