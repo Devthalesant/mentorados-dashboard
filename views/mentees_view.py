@@ -25,16 +25,28 @@ st.title("Debug de Parâmetros de URL")
 st.write("st.query_params:", st.query_params)
 st.dataframe(df_final)
 
+
 query_params = st.query_params
+st.write("Parâmetros brutos:", query_params)
 
 if 'first_key' in query_params:
-    # Remove aspas se existirem
-    param_value = query_params['first_key'][0].replace('"', '')
+    # Obtém e limpa o parâmetro
+    raw_value = query_params['first_key'][0]
+    clean_value = raw_value.strip('"')  # Remove aspas se existirem
     
-    # Decodificação segura
+    # Decodificação
     try:
-        codes = [int(code) for code in param_value.split('-')]
-        decoded_str = ''.join(chr(code) for code in codes if 32 <= code <= 126)  # Filtra apenas caracteres imprimíveis
-        st.write("String decodificada:", decoded_str)
+        codes = [int(code) for code in clean_value.split('-')]
+        
+        # Filtra apenas caracteres ASCII imprimíveis (32-126)
+        decoded_str = ''.join(chr(code) for code in codes if 32 <= code <= 126)
+        
+        st.success(f"Valor decodificado: {decoded_str}")
+        
+        # Aqui você pode usar o decoded_str para filtrar seu DataFrame
+        # df_filtrado = df_final[df_final['clinica'] == decoded_str]
+        
     except ValueError:
-        st.error("Erro na decodificação - formato inválido")
+        st.error("Formato inválido - os valores devem ser números separados por hífen")
+else:
+    st.warning("Nenhum parâmetro 'first_key' encontrado na URL")
