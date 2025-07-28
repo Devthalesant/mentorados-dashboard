@@ -25,8 +25,16 @@ st.title("Debug de Parâmetros de URL")
 st.write("st.query_params:", st.query_params)
 st.dataframe(df_final)
 
-query_params =  st.query_params
+query_params = st.query_params
 
-codes = query_params['first_key'][0].split('-')
-decoded_str = ''.join(chr(int(code)) for code in codes)
-st.write("String decodificada:", decoded_str)
+if 'first_key' in query_params:
+    # Remove aspas se existirem
+    param_value = query_params['first_key'][0].replace('"', '')
+    
+    # Decodificação segura
+    try:
+        codes = [int(code) for code in param_value.split('-')]
+        decoded_str = ''.join(chr(code) for code in codes if 32 <= code <= 126)  # Filtra apenas caracteres imprimíveis
+        st.write("String decodificada:", decoded_str)
+    except ValueError:
+        st.error("Erro na decodificação - formato inválido")
