@@ -51,11 +51,12 @@ if 'clinica' in query_params:
 
 
 col1, col2, col3 = st.columns(3)
-
+st.header("💵 KPI´s de Faturamento:")
 with col1:
     st.metric(f"Meta do mês:",meta_formatada)
 with col2:
     st.metric(f"Faturamento Total:",valor_faturado_formatado)
+    st.metric("Valor faltando para Gritar Meta:",valor_remanescente_formatado)
 with col3:
     st.metric("Atingimento:",atingimento_de_meta_formatado)
 
@@ -64,7 +65,7 @@ if atingimento_de_meta >= 100:
     st.balloons()
 elif atingimento_de_meta >= 50:
     st.success(f"💪 Ja Passamos da metade, vamos atrás dos {meta_formatada}")
-    st.metric("Valor para Gritar Meta:",valor_remanescente_formatado)
+
 elif atingimento_de_meta < 50:
     st.warning(f"""
 ⚡ **Foco Total Necessário!**
@@ -74,6 +75,13 @@ elif atingimento_de_meta < 50:
     
     💡 Dica: Revise suas estratégias e mantenha a consistência!
     """)
+st.markdown("")
+st.divider() 
+
+st.header("🎣 KPI´s de Leads e Agendamentos:")
+
+
+
 
 
     
