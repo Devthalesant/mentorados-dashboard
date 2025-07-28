@@ -9,14 +9,12 @@ dash_page = st.Page(
     "views/dashboard_mentees.py",
     title="Dashboard Mentorados",
     icon=":material/thumb_up:",
-    theme = "light"
 )
 
 mentees_page = st.Page(
     "views/mentees_view.py",
     title="Dashboard Individual",
     icon=":material/thumb_up:",
-    theme = "light"
 )
 # --- NAVIGATION SETUP [WITHOUT SECTIONS] ---
 # pg = st.navigation(pages=[about_page, project_1_page, project_2_page])
