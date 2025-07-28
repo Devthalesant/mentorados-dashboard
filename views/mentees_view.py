@@ -132,24 +132,7 @@ st.markdown("")
 st.divider() 
 
 st.header("🎣 KPI´s de Leads e Agendamentos:")
-st.dataframe(df_filtrado)
-
-leads_gerados = df_filtrado['Leads'].sum()
-atendimentos_realizdos = df_filtrado["Atendimentos Realizados no dia. (considerando Avaliação)"].sum()
-aval_realizadas = df_filtrado['Avaliações'].sum()
-Pedidos = df_filtrado['Pedidos'].sum()
-
-
-col1,col2,col3 = st.columns(3)
-
-with col1: 
-    st.metric(f"Leads Gerados no mês:",leads_gerados)
-with col2:
-    st.metric("Atendimentos Realizados no mês:",atendimentos_realizdos)
-    st.metric("Pedidos Totais Gerados no mês:",Pedidos)
-with col3:
-    st.metric("Avaliações Realizadas no mês:",aval_realizadas)
-
+st.write(df_filtrado.columns)
 
 
 
