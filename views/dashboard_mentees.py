@@ -33,7 +33,6 @@ df_final = load_data()
 ## 1 Top KPI´s
 st.header(f"🎯 Principais KPI's | {month_name.capitalize()}/{year}")
 st.markdown("")
-st.dataframe(df_final)
 st.write(month)
 top_kpi = Principais_kpis(df_final)
 
