@@ -19,8 +19,12 @@ df_final = load_data()
 
 # Interface do dashboard
 st.title("Dashboard Individual")
+if df_final:
+    st.success("Base de Dados Baixada com Sucesso!")
+else:
+    st.error("Erro ao baixar a Base de Dados!")
 
-# Debug: mostra os dados brutos (opcional)
+
 st.write("Dados completos carregados:")
 st.dataframe(df_final)
 
