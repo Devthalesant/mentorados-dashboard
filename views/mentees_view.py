@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import date
 import locale
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 today = date.today()
 year = today.year
@@ -76,52 +77,46 @@ elif atingimento_de_meta < 50:
     💡 Dica: Revise suas estratégias e mantenha a consistência!
     """)
 
-## Gráfico de Vendas Diárias: 
-## Gráfico de Vendas Diárias - Versão Aprimorada
+## Gráfico de Vendas Diárias com Plotly
 st.markdown("---")
 st.subheader("📊 Vendas Diárias por Data")
 
-# Configurar o tamanho do gráfico
-plt.figure(figsize=(12, 6))
+# Converter e ordenar datas
+df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"], dayfirst=True)
+df_filtrado = df_filtrado.sort_values("Data")
 
-# Converter a coluna de data para o formato datetime (caso ainda não esteja)
-df_filtrado['Data'] = pd.to_datetime(df_filtrado['Data'], dayfirst=True)
-
-# Ordenar por data
-df_filtrado = df_filtrado.sort_values('Data')
-
-# Criar o gráfico de barras
-bars = plt.bar(
-    df_filtrado['Data'].dt.strftime('%d/%m'),  # Formato dia/mês
-    df_filtrado['Valor Vendido'],
-    color='#7E4EC2',  # Roxo profissional
-    width=0.6,
-    edgecolor='white'  # Borda branca para contraste
+# Criar gráfico
+fig = px.bar(
+    df_filtrado,
+    x="Data",
+    y="Valor Vendido",
+    labels={"Valor Vendido": "Valor (R$)", "Data": ""},
+    text=[f'R$ {x:,.0f}'.replace(',', '.') for x in df_filtrado['Valor Vendido']],
+    color_discrete_sequence=["#7E4EC2"]  # Mesmo roxo do seu estilo
 )
 
-# Adicionar os valores em cima de cada barra
-for bar in bars:
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2., height,
-            f'R$ {height:,.0f}'.replace(',', '.'),  # Formato brasileiro
-            ha='center', va='bottom', fontsize=10)
-
-# Linha da média
+# Adicionar linha da média
 media = df_filtrado['Valor Vendido'].mean()
-plt.axhline(media, color='#FFA726', linestyle='--', 
-           label=f'Média Diária: R$ {media:,.2f}'.replace(',', 'X').replace('.', ',').replace('X', '.'))
+fig.add_hline(
+    y=media,
+    line_dash="dash",
+    line_color="#FFA726",
+    annotation_text=f"Média: R$ {media:,.2f}".replace('.', '|').replace(',', '.').replace('|', ','),
+    annotation_position="bottom right"
+)
 
-# Configurações do gráfico
-plt.title(f'Vendas Diárias - {nome_clinica}', pad=20, fontweight='bold')
-plt.xlabel('Data', labelpad=10)
-plt.ylabel('Valor Vendido (R$)', labelpad=10)
-plt.legend(loc='upper right')
-plt.grid(axis='y', alpha=0.3)
-plt.xticks(rotation=45)
-plt.tight_layout()
+# Ajustes finais
+fig.update_traces(textposition='outside')
+fig.update_layout(
+    xaxis_tickformat="%d/%m",
+    xaxis_tickangle=-45,
+    showlegend=False,
+    yaxis_gridcolor='rgba(0,0,0,0.1)',
+    plot_bgcolor='rgba(0,0,0,0)'
+)
 
-# Exibir o gráfico no Streamlit
-st.pyplot(plt.gcf())  # gcf() pega a figura atual
+# Exibir no Streamlit
+st.plotly_chart(fig, use_container_width=True)
 st.markdown("")
 st.divider() 
 
