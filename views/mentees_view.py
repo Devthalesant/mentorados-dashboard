@@ -43,7 +43,6 @@ if 'clinica' in query_params:
 df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número):":"Valor Vendido",
                                           "Leads Gerados no Dia:" : "Leads",
                                           "Avaliações Realizadas no Dia:" : "Avaliações",
-                                          "Atendimentos Realizados no dia. (considerando Avaliação)" : "Atendimentos",
                                           "Quantidade de Pedidos Gerados no DIa:" : "Pedidos",
                                           "Qual a sua Meta de Faturamento?" : "Meta"})
 
@@ -136,7 +135,7 @@ st.header("🎣 KPI´s de Leads e Agendamentos:")
 st.dataframe(df_filtrado)
 
 leads_gerados = df_filtrado['Leads'].sum()
-atendimentos_realizdos = df_filtrado["Atendimentos"].sum()
+atendimentos_realizdos = df_filtrado["Atendimentos Realizados no dia. (considerando Avaliação)"].sum()
 aval_realizadas = df_filtrado['Avaliações'].sum()
 Pedidos = df_filtrado['Pedidos'].sum()
 
