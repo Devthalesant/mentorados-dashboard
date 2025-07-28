@@ -39,6 +39,5 @@ if 'clinica' in query_params:
 
     st.dataframe(df_filtrado)
 
-meta = df_filtrado['Qual a sua Meta de Faturamento?'].first()
-
+meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
 st.write(meta)
