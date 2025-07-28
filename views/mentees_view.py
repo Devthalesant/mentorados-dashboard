@@ -36,7 +36,7 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
-df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número)":"Valor Vendido"})
+df_filtrado.rename(columns={"Valor Vendido no Dia (somente número)":"Valor Vendido"})
 
 meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
 meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
