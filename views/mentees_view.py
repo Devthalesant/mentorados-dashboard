@@ -8,8 +8,7 @@ import locale
 today = date.today()
 year = today.year
 month = today.month
-month_name = today.strftime("%B")  # Retorna o nome completo do mês
-
+month_name = today.strftime("%B")
 
 @st.cache_data
 def load_data():
@@ -17,36 +16,32 @@ def load_data():
 
 df_final = load_data()
 
-st.title("Dashboard Individual gentlemen!!!!!!!")
+st.title("Dashboard Individual")
 
-st.title("Debug de Parâmetros de URL")
-
-# Todas as abordagens
-st.write("st.query_params:", st.query_params)
-st.dataframe(df_final)
-
-
+# Debug dos parâmetros
 query_params = st.query_params
 st.write("Parâmetros brutos:", query_params)
 
 if 'first_key' in query_params:
-    # Obtém e limpa o parâmetro
     raw_value = query_params['first_key'][0]
-    clean_value = raw_value.strip('"')  # Remove aspas se existirem
     
-    # Decodificação
     try:
-        codes = [int(code) for code in clean_value.split('-')]
+        # Processamento dos códigos
+        codes = [int(code) for code in raw_value.split('-')]
         
-        # Filtra apenas caracteres ASCII imprimíveis (32-126)
-        decoded_str = ''.join(chr(code) for code in codes if 32 <= code <= 126)
+        # Decodificação estendida para caracteres latinos (incluindo acentos)
+        decoded_str = ''.join(chr(code) for code in codes)
         
         st.success(f"Valor decodificado: {decoded_str}")
         
-        # Aqui você pode usar o decoded_str para filtrar seu DataFrame
-        # df_filtrado = df_final[df_final['clinica'] == decoded_str]
-        
-    except ValueError:
-        st.error("Formato inválido - os valores devem ser números separados por hífen")
+        # Agora filtre seu DataFrame
+        if 'Clínica' in df_final.columns:
+            df_filtrado = df_final[df_final['Clínica'].str.contains(decoded_str, case=False, na=False)]
+            st.dataframe(df_filtrado)
+        else:
+            st.error("Coluna 'Clínica' não encontrada no DataFrame")
+            
+    except ValueError as e:
+        st.error(f"Erro na decodificação: {str(e)}")
 else:
     st.warning("Nenhum parâmetro 'first_key' encontrado na URL")
