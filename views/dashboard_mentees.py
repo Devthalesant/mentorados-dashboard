@@ -26,13 +26,14 @@ st.divider()
 
 @st.cache_data
 def load_data():
-    return pegar_dados_google_sheets()
+    return pegar_dados_google_sheets(month)
 
 df_final = load_data()
 
 ## 1 Top KPI´s
 st.header(f"🎯 Principais KPI's | {month_name.capitalize()}/{year}")
 st.markdown("")
+st.write(month)
 top_kpi = Principais_kpis(df_final)
 
 top_kpi = top_kpi.sort_values(by=['Atingimento de Meta (%)'],ascending=False).reset_index(drop=True)
@@ -153,74 +154,110 @@ st.dataframe(
 st.markdown("")
 st.divider() 
 
-### 3 - Funil
+# Função para estilizar o cabeçalho da tabela com cor roxa clara
+def style_header(df_style):
+    return df_style.set_table_styles([
+        {
+            'selector': 'thead th',
+            'props': [('background-color', '#D8BFD8'),  # Roxo claro
+                      ('color', 'black')]
+        }
+    ])
+
+# Configurações iniciais
 st.header(f"📊 Funil de Conversão | {month_name.capitalize()}/{year}")
-st.markdown("---")  # Separador visual
+st.markdown("---")
 
+# Constantes e configurações
+METRICAS_PARA_FORMATAR = ['Ticket Médio', 'Faturamento Total']
+COLORS = {
+    'bad': 'red',
+    'good': 'green',
+    'header_bg': '#D8BFD8',
+    'table_bg': '#f8f9fa'
+}
+METRICA_THRESHOLDS = {
+    'Atendimento no Mês': 40,
+    'Avaliações no Mês': 40,
+    'Pedidos': 50
+}
+
+# Processamento dos dados
+def formatar_valor(metrica, valor):
+    """Formata valores conforme o tipo de métrica"""
+    try:
+        if metrica in METRICAS_PARA_FORMATAR:
+            return f"R${float(valor):,.2f}" if str(valor).replace('.', '', 1).isdigit() else valor
+        return f"{int(valor)}" if str(valor).replace('.', '', 1).isdigit() else valor
+    except (ValueError, TypeError):
+        return valor
+
+def formatar_atingimento(atingimento):
+    """Formata porcentagem de atingimento"""
+    try:
+        return f"{float(atingimento):.2f}%" if atingimento != "-" else atingimento
+    except (ValueError, TypeError):
+        return atingimento
+
+def aplicar_estilo_atingimento(metrica, atingimento_str):
+    """Aplica cor condicional ao atingimento"""
+    try:
+        atingimento = float(atingimento_str.strip('%'))
+        threshold = METRICA_THRESHOLDS.get(metrica)
+        if threshold is not None:
+            color = COLORS['good'] if atingimento >= threshold else COLORS['bad']
+            return f"<span style='color:{color}'>{atingimento_str}</span>"
+    except (ValueError, AttributeError):
+        pass
+    return atingimento_str
+
+def estilizar_tabela(df):
+    """Aplica estilos à tabela"""
+    return df.style \
+        .set_properties(**{
+            'background-color': COLORS['table_bg'],
+            'color': 'black',
+            'font-size': '14px'
+        }) \
+        .set_table_styles([{
+            'selector': 'th',
+            'props': [
+                ('background-color', COLORS['header_bg']),
+                ('color', 'black'),
+                ('font-size', '14px'),
+                ('position', 'sticky'),
+                ('top', '0')
+            ]
+        }])
+
+# Loop principal otimizado
 lista_de_funis = gerando_funil_mentorados(df_final)
-metricas_para_formatar = ['Ticket Médio', 'Faturamento Total']
 
-# Calculate number of rows needed (3 funnels per row)
-num_funis = len(lista_de_funis)
-num_rows = (num_funis + 2) // 3  # Round up division
+for i in range(0, len(lista_de_funis), 3):
+    cols = st.columns(3)
+    for col_idx, df_funil in enumerate(lista_de_funis[i:i+3]):
+        if df_funil.empty or not all(col in df_funil.columns for col in ['Métrica', 'Valor', 'Atingimento']):
+            continue
 
-for row in range(num_rows):
-    cols = st.columns(3)  # Create 3 columns for each row
-    
-    for col_idx in range(3):
-        funil_idx = row * 3 + col_idx  # Aqui usamos inteiros puros
-        if funil_idx < num_funis:
-            df_funil = lista_de_funis[funil_idx].copy()
-            clinic_name = df_funil.at[0,'Valor']
+        clinic_name = df_funil.at[0, 'Valor']
+        df_processed = df_funil.copy()
+
+        # Aplicar formatações
+        for idx in df_processed.index:
+            metrica = df_processed.at[idx, 'Métrica']
             
-            # Verificamos se as colunas necessárias existem
-            if not df_funil.empty and all(col in df_funil.columns for col in ['Métrica', 'Valor']):
-                for idx in df_funil.index:
-                    metrica = df_funil.at[idx, 'Métrica']
-                    valor = df_funil.at[idx, 'Valor']
-                    atingimento = df_funil.at[idx,'Atingimento']
-                    
-                    try:
-                        if metrica in metricas_para_formatar:
-                            # Formata como moeda
-                            df_funil.at[idx, 'Valor'] = f"R${float(valor):,.2f}" if str(valor).replace('.','', 1).isdigit() else valor
-                        else:
-                            df_funil.at[idx,'Valor'] = f"{int(valor)}"
-
-                        if atingimento != "-":
-                        # Formata como porcentagem
-                            df_funil.at[idx, 'Atingimento'] = f"{float(atingimento):.2f}%" if str(valor).replace('.','', 1).isdigit() else valor
-                    except (ValueError, TypeError):
-                        pass
-
-            # Aplicar estilo
-            styled_funil = df_funil.style \
-                .set_properties(**{
-                    'background-color': '#f8f9fa',
-                    'color': 'black',
-                    'font-size': '14px'
-                }) \
-                .set_table_styles([{
-                    'selector': 'th',
-                    'props': [
-                        ('background-color', '#6a11cb'),
-                        ('color', 'white'),
-                        ('font-size', '14px'),
-                        ('position', 'sticky'),
-                        ('top', '0')
-                    ]
-                }])
+            # Formatar valores
+            df_processed.at[idx, 'Valor'] = formatar_valor(metrica, df_processed.at[idx, 'Valor'])
             
-            with cols[col_idx]:
-                with st.container():
-                    st.markdown(f"**Clínica {clinic_name}**")
-                    st.dataframe(
-                        styled_funil,
-                        height=min(300, 150 + len(df_funil) * 25),
-                        hide_index=True,
-                        use_container_width=True
-                    )
-    
-    st.markdown("---")  # Separador entre linhas
+            # Formatar e estilizar atingimento
+            df_processed.at[idx, 'Atingimento'] = formatar_atingimento(df_processed.at[idx, 'Atingimento'])
+            df_processed.at[idx, 'Atingimento'] = aplicar_estilo_atingimento(
+                metrica, df_processed.at[idx, 'Atingimento']
+            )
 
-
+        # Exibição
+        with cols[col_idx]:
+            with st.container():
+                st.markdown(f"**Clínica {clinic_name}**")
+                styled_table = estilizar_tabela(df_processed)
+                st.markdown(styled_table.to_html(escape=False), unsafe_allow_html=True)
