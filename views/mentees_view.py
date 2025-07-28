@@ -86,7 +86,7 @@ df_filtrado = df_filtrado.sort_values("Data")
 # Crie o gráfico com matplotlib para maior controle
 fig, ax = plt.subplots(figsize=(10, 5))
 bars = ax.bar(
-    df_filtrado["Data"].dt.strftime('%d/%m'),  # Formato dia/mês
+    df_filtrado["Data"].dt.strftime('%d/%m/%Y'),  # Formato dia/mês
     df_filtrado['Valor Vendido no Dia (somente número):'],
     color='#724CAF',
     width=0.6
