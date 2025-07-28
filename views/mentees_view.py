@@ -14,20 +14,16 @@ month_name = today.strftime("%B")  # Retorna o nome completo do mês
 def load_data():
     return pegar_dados_google_sheets(month)
 
+# Decodificador simples
+def decodificar_nome(codigo):
+    return unquote(codigo).replace('-', ' ').title()
+
 # Carrega os dados
 df_final = load_data()
 
 # Interface do dashboard
 st.title("Dashboard Individual")
-
-
 st.write("Dados completos carregados:")
-st.dataframe(df_final)
-
-# Decodificador simples
-def decodificar_nome(codigo):
-    return unquote(codigo).replace('-', ' ').title()
-
 # Obter parâmetro da URL
 query_params = st.query_params
 
@@ -39,3 +35,16 @@ if 'clinica' in query_params:
     if 'Clinica' in df_final.columns:
         df_filtrado = df_final[df_final['Clinica'].str.lower() == nome_clinica.lower()]
         st.dataframe(df_filtrado)
+
+
+
+
+
+
+
+
+
+
+
+st.dataframe(df_final)
+
