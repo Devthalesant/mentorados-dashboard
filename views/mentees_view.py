@@ -39,12 +39,9 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
-st.write("Colunas ANTES do rename:", df_filtrado.columns.tolist())
-
-# Primeiro, vamos corrigir os nomes das colunas removendo quebras de linha
+#corrigir os nomes das colunas removendo quebras de linha
 df_filtrado.columns = df_filtrado.columns.str.replace('\n', ' ')
 
-# Agora faça o rename normalmente
 df_filtrado = df_filtrado.rename(columns={
     "Clinica": "Clinica",
     "Data": "Data",
@@ -55,10 +52,6 @@ df_filtrado = df_filtrado.rename(columns={
     "Quantidade de Pedidos Gerados no DIa:": "Pedidos",
     "Valor Vendido no Dia (somente número):": "Valor Vendido"
 })
-
-# Verificação final
-st.write("Colunas DEPOIS do rename:", df_filtrado.columns.tolist())
-
 
 # Pegando paramâmetros de Faturamento
 meta = df_filtrado['Meta'].iloc[0]
@@ -155,15 +148,17 @@ aval_realizadas = df_filtrado['Avaliações'].sum()
 Pedidos = df_filtrado['Pedidos'].sum()
 
 
-col1,col2,col3 = st.columns(3)
+col1,col2,col3, col4 = st.columns(4)
 
 with col1: 
     st.metric(f"Leads Gerados no mês:",leads_gerados)
 with col2:
     st.metric("Atendimentos Realizados no mês:",atendimentos_realizdos)
-    st.metric("Pedidos Totais Gerados no mês:",Pedidos)
 with col3:
     st.metric("Avaliações Realizadas no mês:",aval_realizadas)
+with  col4:
+    st.metric("Pedidos Totais Gerados no mês:",Pedidos)
+
 
 
 
