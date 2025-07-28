@@ -5,14 +5,14 @@ import pandas as pd
 from datetime import date
 import locale
 
-# Configuração inicial
 today = date.today()
-locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')  # Para nomes de mês em português
-month_name = today.strftime("%B")
+year = today.year
+month = today.month
+month_name = today.strftime("%B")  # Retorna o nome completo do mês
 
 @st.cache_data
 def load_data():
-    return pegar_dados_google_sheets(today.month)
+    return pegar_dados_google_sheets(month)
 
 # Carrega os dados
 df_final = load_data()
@@ -23,9 +23,6 @@ st.title("Dashboard Individual")
 # Debug: mostra os dados brutos (opcional)
 st.write("Dados completos carregados:")
 st.dataframe(df_final)
-
-import streamlit as st
-from urllib.parse import unquote
 
 # Decodificador simples
 def decodificar_nome(codigo):
