@@ -12,6 +12,8 @@ year = today.year
 month = today.month
 month_name = today.strftime("%B")  # Retorna o nome completo do mês
 
+
+# Pegando os dados
 @st.cache_data
 def load_data():
     return pegar_dados_google_sheets(month)
@@ -37,8 +39,11 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
+# Renomeando Coluna de Valor
 df_filtrado = df_filtrado.rename(columns={"Valor Vendido no Dia (somente número):":"Valor Vendido"})
 
+
+# Pegando paramâmetros de Faturamento
 meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
 meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
@@ -51,6 +56,7 @@ atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
 valor_remanescente = meta - valor_faturado
 valor_remanescente_formatado = f"R$ {valor_remanescente:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
+## Mostrando KPI´s
 st.header("💵 KPI´s de Faturamento:")
 col1, col2, col3 = st.columns(3)
 with col1:
@@ -79,7 +85,7 @@ elif atingimento_de_meta < 50:
 
 ## Gráfico de Vendas Diárias com Plotly
 st.markdown("---")
-st.subheader("📊 Vendas Diárias por Data")
+st.subheader("📊 Vendas Diárias")
 
 # Converter e ordenar datas
 df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"], dayfirst=True)
@@ -117,10 +123,12 @@ fig.update_layout(
 
 # Exibir no Streamlit
 st.plotly_chart(fig, use_container_width=True)
+
 st.markdown("")
 st.divider() 
 
 st.header("🎣 KPI´s de Leads e Agendamentos:")
+st.dataframe(df_filtrado)
 
 
 
