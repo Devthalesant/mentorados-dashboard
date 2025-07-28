@@ -144,11 +144,14 @@ Pedidos = df_filtrado['Pedidos'].sum()
 col1,col2,col3 = st.columns(3)
 
 with col1: 
-    st.metric(f"Nesse mês você gerou{leads_gerados}")
+    st.metric(f"Leads Gerados no mês:",leads_gerados)
 with col2:
-    st.metric(f"Realizou {atendimentos_realizdos} Atendimentos")
+    st.metric("Atendimentos Realizados no mês:",atendimentos_realizdos)
+    st.metric("Pedidos Totais Gerados no mês:",Pedidos)
 with col3:
-    st.metric(f"Além de {aval_realizadas} Avaliações")
+    st.metric("Avaliações Realizadas no mês:",aval_realizadas)
+
+
 
 
 
