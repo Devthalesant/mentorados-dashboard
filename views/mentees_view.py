@@ -157,25 +157,82 @@ conversao_aval_pedidos_f = f"{conversao_aval_pedidos:.2f}%"
 
 
 
-col1,col2,col3, col4 = st.columns(4)
+# ======================
+# SEÇÃO 1 - VOLUMES BRUTOS
+# ======================
+st.markdown("### 📈 Volume de Atividades")
+cols = st.columns(4)
+with cols[0]: 
+    st.metric(
+        label="Leads Gerados", 
+        value=leads_gerados,
+        help="Total de leads captados no período"
+    )
+with cols[1]:
+    st.metric(
+        label="Atendimentos Realizados", 
+        value=atendimentos_realizdos,
+        help="Total de clientes atendidos"
+    )
+with cols[2]:
+    st.metric(
+        label="Avaliações Concluídas", 
+        value=aval_realizadas,
+        help="Total de avaliações realizadas"
+    )
+with cols[3]:
+    st.metric(
+        label="Pedidos Gerados", 
+        value=Pedidos,
+        help="Total de pedidos fechados",
+        delta=f"{conversao_aval_pedidos_f} de conversão"  # Adicionei um delta contextual
+    )
 
-with col1: 
-    st.metric(f"Leads Gerados no mês:",leads_gerados)
-with col2:
-    st.metric("Atendimentos Realizados no mês:",atendimentos_realizdos)
-with col3:
-    st.metric("Avaliações Realizadas no mês:",aval_realizadas)
-with  col4:
-    st.metric("Pedidos Totais Gerados no mês:",Pedidos)
+# Divisor visual
+st.divider()
 
-col1,col2,col3 = st.columns(3)
-with col1: 
-    st.metric(f"Conversão Leads:",conversao_leads_atendimentos_f)
-with col2:
-    st.metric("Convers]ao Avaliações:",conversao_atendimentos_aval_f)
-with col3:
-    st.metric("Conversão Pedidos:",conversao_aval_pedidos_f)
+# ======================
+# SEÇÃO 2 - TAXAS DE CONVERSÃO
+# ======================
+st.markdown("### 🔄 Eficiência Operacional")
+cols = st.columns(3)
+with cols[0]: 
+    st.metric(
+        label="Leads → Atendimentos", 
+        value=conversao_leads_atendimentos_f,
+        help=f"{leads_gerados} leads → {atendimentos_realizdos} atendimentos"
+    )
+with cols[1]:
+    st.metric(
+        label="Atendimentos → Avaliações", 
+        value=conversao_atendimentos_aval_f,
+        help=f"{atendimentos_realizdos} atendimentos → {aval_realizadas} avaliações"
+    )
+with cols[2]:
+    st.metric(
+        label="Avaliações → Pedidos", 
+        value=conversao_aval_pedidos_f,
+        help=f"{aval_realizadas} avaliações → {Pedidos} pedidos"
+    )
 
+# ======================
+# MELHORIAS VISUAIS ADICIONAIS
+# ======================
+st.markdown("""
+<style>
+    /* Estilização dos cards de métricas */
+    div[data-testid="stMetric"] {
+        background-color: #f0f2f6;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    /* Espaçamento entre seções */
+    .section {
+        margin-bottom: 30px;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 
 
