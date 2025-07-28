@@ -147,6 +147,15 @@ atendimentos_realizdos = df_filtrado["Atendimentos"].sum()
 aval_realizadas = df_filtrado['Avaliações'].sum()
 Pedidos = df_filtrado['Pedidos'].sum()
 
+conversao_leads_atendimentos = atendimentos_realizdos/leads_gerados * 100
+conversao_atendimentos_aval = aval_realizadas/atendimentos_realizdos *100
+conversao_aval_pedidos = Pedidos/aval_realizadas * 100
+
+conversao_leads_atendimentos_f = f"{conversao_leads_atendimentos:.2f}%"
+conversao_atendimentos_aval_f = f"{conversao_atendimentos_aval:.2f}%"
+conversao_aval_pedidos_f = f"{conversao_aval_pedidos:.2f}%"
+
+
 
 col1,col2,col3, col4 = st.columns(4)
 
@@ -158,6 +167,17 @@ with col3:
     st.metric("Avaliações Realizadas no mês:",aval_realizadas)
 with  col4:
     st.metric("Pedidos Totais Gerados no mês:",Pedidos)
+
+col1,col2,col3 = st.columns(3)
+with col1: 
+    st.metric(f"Conversão Leads:",conversao_leads_atendimentos_f)
+with col2:
+    st.metric("Convers]ao Avaliações:",conversao_atendimentos_aval_f)
+with col3:
+    st.metric("Conversão Pedidos:",conversao_aval_pedidos_f)
+
+
+
 
 
 
