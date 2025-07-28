@@ -8,5 +8,11 @@ import locale
 
 st.title("Dashboard Individual gentlemen!!!!!!!")
 
-query_params = st.query_params
-st.write(query_params)
+st.title("Debug de Parâmetros de URL")
+
+# Todas as abordagens
+st.write("st.query_params:", st.query_params)
+st.write("experimental_get_query_params:", st.experimental_get_query_params())
+
+# Mostrar URL completa (para verificar se os parâmetros estão chegando)
+st.write("URL completa:", st.experimental_get_query_string())
