@@ -77,36 +77,15 @@ elif atingimento_de_meta < 50:
     """)
 
 ## Gráfico de Vendas Diárias: 
-# Garanta que a coluna Data está como datetime
-df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"])
+## Converter datas com o parâmetro dayfirst
+df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"], dayfirst=True, errors='coerce')
+df_filtrado = df_filtrado.dropna(subset=['Data'])
 
-# Ordene por data
-df_filtrado = df_filtrado.sort_values("Data")
-
-# Crie o gráfico com matplotlib para maior controle
-fig, ax = plt.subplots(figsize=(10, 5))
-bars = ax.bar(
-    df_filtrado["Data"].dt.strftime('%d/%m/%Y'),  # Formato dia/mês
-    df_filtrado['Valor Vendido no Dia (somente número):'],
-    color='#724CAF',
-    width=0.6
+# Gráfico simples do Streamlit
+st.bar_chart(
+    df_filtrado.set_index('Data')['Valor Vendido no Dia (somente número):'],
+    color="#724CAF"
 )
-
-# Adicione valores nas barras
-for bar in bars:
-    height = bar.get_height()
-    ax.text(bar.get_x() + bar.get_width()/2., height,
-            f'R$ {height:,.0f}'.replace(',', '.'),  # Formato brasileiro
-            ha='center', va='bottom')
-
-# Configurações do gráfico
-ax.set_title("Vendas Diárias", pad=20)
-ax.set_ylabel("Valor (R$)")
-ax.grid(axis='y', linestyle='--', alpha=0.7)
-plt.xticks(rotation=45)
-plt.tight_layout()
-
-st.pyplot(fig)
 st.markdown("")
 st.divider() 
 
