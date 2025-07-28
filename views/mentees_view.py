@@ -35,18 +35,19 @@ if 'clinica' in query_params:
 
     df_filtrado["Data"] = pd.to_datetime(df_filtrado["Data"]).dt.strftime('%d/%m/%Y')
 
+st.dataframe(df_filtrado)
 
-    meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
-    meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
+meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-    valor_faturado = df_filtrado['Valor Vendido no Dia (somente número):'].sum()
-    valor_faturado_formatado = f"R$ {valor_faturado:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+valor_faturado = df_filtrado['Valor Vendido no Dia (somente número):'].sum()
+valor_faturado_formatado = f"R$ {valor_faturado:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
-    atingimento_de_meta = valor_faturado/meta *100
-    atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
+atingimento_de_meta = valor_faturado/meta *100
+atingimento_de_meta_formatado = f"{atingimento_de_meta:.2f}%"
 
-    valor_remanescente = meta - valor_faturado
-    valor_remanescente_formatado = f"R$ {valor_remanescente:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+valor_remanescente = meta - valor_faturado
+valor_remanescente_formatado = f"R$ {valor_remanescente:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
 
 
 st.header("💵 KPI´s de Faturamento:")
