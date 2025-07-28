@@ -15,6 +15,7 @@ def load_data():
     return pegar_dados_google_sheets(month)
 
 df_final = load_data()
+st.dataframe(df_final)
 
 st.title("Dashboard Individual")
 
