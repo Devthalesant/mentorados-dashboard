@@ -137,13 +137,14 @@ with st.container(border=True):
         Falta apenas {valor_remanescente_formatado} para bater a meta total!
         """)
     else:
-        st.warning(f"""
-        ⚠️ **Atenção Necessária**  
-        Atingimento atual: {atingimento_de_meta:.1f}%  
-        Estratégias recomendadas:
-        - Priorize clientes com maior potencial
-        - Revise campanhas de marketing
-        - Otimize conversões
+        st.info(f"""
+        📊 **Progresso Mensal**  
+        Atualmente em {atingimento_de_meta:.1f}% da meta  
+
+        Boas práticas:
+        - Monitore seu desempenho diariamente
+        - Priorize as atividades de maior impacto
+        - Ajuste o ritmo conforme necessário
         """)
 
 # Estilo CSS customizado
