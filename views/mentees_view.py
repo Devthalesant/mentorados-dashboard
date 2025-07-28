@@ -39,5 +39,7 @@ if 'clinica' in query_params:
 
     st.dataframe(df_filtrado)
 
-meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
-st.write(meta)
+    meta = df_filtrado['Qual a sua Meta de Faturamento?'].iloc[0]
+    meta_formatada = f"R$ {meta:,.2f}".replace(',', 'X').replace('.', ',').replace('X', '.')
+
+st.write(meta_formatada)
