@@ -42,7 +42,7 @@ else:
             df_filtrado = df_final[df_final['Clinica'].str.lower() == nome_clinica.lower()]
         
         if df_filtrado is None or df_filtrado.empty:
-            st.warning(f"Ainda não há dados a serem anaçisados sobre a clínica :{nome_clinica}/n")
+            st.warning(f"Ainda não há dados a serem anaçisados sobre a clínica :{nome_clinica}")
             st.warning(f"Favor preenhcer o formulário diário.")
         
         else:
