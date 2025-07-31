@@ -24,7 +24,8 @@ if 'autenticado' not in st.session_state:
 # Parte de senha
 if not st.session_state['autenticado']:
     senha_correta = "Mentorados360"
-    senha_usuario = st.text_input("Digite a senha para acessar este dashboard:", type="password")
+    st.markdown("### Digite a senha para acessar este dashboard:")
+    senha_usuario = st.text_input("", type="password")
     if senha_usuario == senha_correta:
         st.session_state['autenticado'] = True
         st.rerun()
