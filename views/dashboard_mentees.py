@@ -31,6 +31,7 @@ if not st.session_state['autenticado']:
     else:
         if senha_usuario:  # usuário tentou inserir alguma senha
             st.error("Pa Acesso Negado!")
+            st.image("C:/Users/novo1/OneDrive/Desktop/Dev/Dashboard - Mentoria/image.jpg")
         st.stop()  # interrompe a execução até que a senha seja correta
 
 else:
