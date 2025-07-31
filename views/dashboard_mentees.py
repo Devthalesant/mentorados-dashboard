@@ -30,7 +30,7 @@ if not st.session_state['autenticado']:
         st.rerun()
     else:
         if senha_usuario:  # usuário tentou inserir alguma senha
-            st.error("Pa Acesso Negado!")
+            st.error("Senha incorreta, Tente novamente!")
             st.image("image.jpg", width=300)
         st.stop()  # interrompe a execução até que a senha seja correta
 
