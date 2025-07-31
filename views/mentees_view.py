@@ -26,8 +26,9 @@ def decodificar_nome(codigo):
 # Carrega os dados
 df_final = load_data()
 
-if df_final:
-
+if df_final is None or df_final.empty:
+    st.warning("Ainda não há dados a serem analisados. Favor Preencher o formulário diário.")
+else:
     # Interface do dashboard
     st.title("Dashboard Individual")
     # Obter parâmetro da URL
@@ -343,8 +344,7 @@ if df_final:
     # Exibir no dashboard
     st.plotly_chart(fig_funil, use_container_width=True)
 
-else: 
-    st.warning("Ainda não há dados a serem analisados. Favor Preencher o formulário diário.")
+
 
 
 
