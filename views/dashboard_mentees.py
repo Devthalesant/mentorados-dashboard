@@ -27,7 +27,7 @@ if not st.session_state['autenticado']:
     senha_usuario = st.text_input("Digite a senha para acessar este dashboard:", type="password")
     if senha_usuario == senha_correta:
         st.session_state['autenticado'] = True
-        st.experimental_rerun()
+        st.rerun()
     else:
         if senha_usuario:  # usuário tentou inserir alguma senha
             st.error("Pa Acesso Negado!")
