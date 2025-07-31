@@ -17,11 +17,21 @@ year = today.year
 month = today.month
 month_name = today.strftime("%B")  # Retorna o nome completo do mês
 
-senha_correta = "Mentorados360"
-senha_usuario = st.text_input("Digite a senha para acessar este dashboard:",type="password")
+# Variável de controle de autenticação
+if 'autenticado' not in st.session_state:
+    st.session_state['autenticado'] = False
 
-if senha_usuario != senha_correta:
-    st.error("Pa Acesso Negado!")
+# Parte de senha
+if not st.session_state['autenticado']:
+    senha_correta = "Mentorados360"
+    senha_usuario = st.text_input("Digite a senha para acessar este dashboard:", type="password")
+    if senha_usuario == senha_correta:
+        st.session_state['autenticado'] = True
+        st.experimental_rerun()
+    else:
+        if senha_usuario:  # usuário tentou inserir alguma senha
+            st.error("Pa Acesso Negado!")
+        st.stop()  # interrompe a execução até que a senha seja correta
 
 else:
     # Configurar página em modo wide
