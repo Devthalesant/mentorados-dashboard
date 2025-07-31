@@ -31,7 +31,6 @@ if not st.session_state['autenticado']:
     else:
         if senha_usuario:  # usuário tentou inserir alguma senha
             st.error("Senha incorreta, Tente novamente!")
-            st.image("image.jpg", width=300)
         st.stop()  # interrompe a execução até que a senha seja correta
 
 else:
