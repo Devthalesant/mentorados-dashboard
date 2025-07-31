@@ -7,7 +7,7 @@ import locale
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-today = date.today() + 1
+today = date.today()
 tomorrow = today + timedelta(days=1)
 year = tomorrow.year
 month = tomorrow.month
