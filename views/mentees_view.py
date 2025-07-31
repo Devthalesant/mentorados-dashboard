@@ -2,15 +2,16 @@ import streamlit as st
 from urllib.parse import unquote
 from data_values import *
 import pandas as pd
-from datetime import date
+from datetime import date, timedelta
 import locale
 import matplotlib.pyplot as plt
 import plotly.express as px
 
-today = date.today()
-year = today.year
-month = today.month
-month_name = today.strftime("%B")  # Retorna o nome completo do mês
+today = date.today() + 1
+tomorrow = today + timedelta(days=1)
+year = tomorrow.year
+month = tomorrow.month
+month_name = tomorrow.strftime("%B")  # Retorna o nome completo do mês
 
 
 # Pegando os dados
