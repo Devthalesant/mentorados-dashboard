@@ -104,21 +104,28 @@ def Principais_kpis(df_final):
     #Principais KPI´s 
     df_data_kpi = df_final.copy()
 
-    df_data_kpi['Vendas Dias ticket'] = df_data_kpi['Valor Vendido no Dia (somente número):']
+    #df_data_kpi['Vendas Dias ticket'] = df_data_kpi['Valor Vendido no Dia (somente número):']
 
     df_data_kpi = df_data_kpi.groupby('Clinica').agg({'Qual a sua Meta de Faturamento?':'first',
                                                     'Quantidade de Pedidos Gerados no DIa:' : 'sum',
                                             'Valor Vendido no Dia (somente número):':'sum',
-                                            'Vendas Dias ticket' : 'mean',
+#                                            'Vendas Dias ticket' : 'mean',
                                             'Atendimentos Realizados no dia.\n(considerando Avaliação)':'sum',
                                             'Avaliações Realizadas no Dia:' : 'sum',
                                             'Leads Gerados no Dia:' : 'sum'}).reset_index()
+    
+    df_data_kpi['Ticket Médio'] = df_data_kpi['Valor Vendido no Dia (somente número):'] / df_data_kpi['Quantidade de Pedidos Gerados no DIa:']
 
+    # Replace inf and -inf with NaN
+    df_data_kpi['Ticket Médio'].replace([np.inf, -np.inf], np.nan, inplace=True)
 
+    # Fill NaN values with 0
+    df_data_kpi['Ticket Médio'].fillna(0, inplace=True)
+    
     df_data_kpi = df_data_kpi.rename(columns={'Qual a sua Meta de Faturamento?':'Meta',
                                             'Quantidade de Pedidos Gerados no DIa:' : 'Pedidos',
                                     'Valor Vendido no Dia (somente número):' : 'Faturamento Total',
-                                    'Vendas Dias ticket' : 'Ticket Médio',
+#                                    'Vendas Dias ticket' : 'Ticket Médio',
                                     'Atendimentos Realizados no dia.\n(considerando Avaliação)' : "Atendimento No mês",
                                     'Avaliações Realizadas no Dia:' : 'Avaliações no Mês',
                                     'Leads Gerados no Dia:' : 'Leads no Mês'})
