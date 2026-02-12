@@ -52,13 +52,6 @@ para colocar as coisas que o Streamlit terá acesso mas os usuparios não:
 
 
 
-no secrets: 
- colocar : 
-    [mongo_credentials]
-    uri = "mongodb+srv://thalesprocorpoestetica:Proc%402025@cluster0.tkcrpgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-na aba com as funções de requsição do mongo : 
-    Import Streamlit as st 
-    uri = st.secrets.mongo_credentials.uri
 
 
