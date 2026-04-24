@@ -40,7 +40,7 @@ st.markdown("""
 
 col1, col2 = st.columns([8, 1])
 with col2:
-    if st.button("🔄 Reload"):
+    if st.button("🔄 Atualizar Dados!"):
         st.cache_data.clear()
         st.rerun()
 
