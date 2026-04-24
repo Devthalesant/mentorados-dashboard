@@ -19,6 +19,31 @@ month_name = tomorrow.strftime("%B")  # Retorna o nome completo do mês
 def load_data():
     return pegar_dados_google_sheets(month)
 
+# Botão de Reload com estilo roxo
+st.markdown("""
+<style>
+    div[data-testid="stButton"] > button {
+        background-color: #7E4EC2;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+    }
+    div[data-testid="stButton"] > button:hover {
+        background-color: #6A3BAE;
+        color: white;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns([8, 1])
+with col2:
+    if st.button("🔄 Reload"):
+        st.cache_data.clear()
+        st.rerun()
+
 # Decodificador simples
 def decodificar_nome(codigo):
     return unquote(codigo).replace('-', ' ').title()
